@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: moon-product
+  profiles:
+    active: local
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848,127.0.0.2:8848,127.0.0.3:8848
+        namespace: 5cf440e9-eceb-4699-a6fe-e16f8357f848
+        ip: 127.0.0.1
+        port: 10001
+        username: nacos
+        password: nacos
+      config:
+        server-addr: 127.0.0.1:8848,127.0.0.2:8848,127.0.0.3:8848
+        namespace: 5cf440e9-eceb-4699-a6fe-e16f8357f848
+        ext-config[0]:
+          data-id: product-datasource.yml
+          #是否刷新，nacos修改就更新
+          refresh: true
+        ext-config[1]:
+          data-id: product-mybatis.yml
+          refresh: true
+        ext-config[2]:
+          data-id: product-other.yml
+          refresh: true
+#        可以根据组区分dev uat prod
+        enabled: true
+        username: nacos
+        password: nacos

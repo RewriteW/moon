@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: moon-coupon
+  profiles:
+    active: local
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848,127.0.0.2:8848,127.0.0.3:8848
+        namespace: 5cf440e9-eceb-4699-a6fe-e16f8357f848
+        ip: 127.0.0.1
+        port: 10001
+        username: nacos
+        password: nacos
+      config:
+        server-addr: 127.0.0.1:8848,127.0.0.2:8848,127.0.0.3:8848
+        namespace: 5cf440e9-eceb-4699-a6fe-e16f8357f848
+        ext-config[0]:
+          data-id: datasource.yml
+          group: dev
+          #是否刷新，nacos修改就更新
+          refresh: true
+        ext-config[1]:
+          data-id: mybatis.yml
+          group: dev
+          refresh: true
+        ext-config[2]:
+          data-id: other.yml
+          group: dev
+          refresh: true
+#        可以根据组区分dev uat prod
+        enabled: true
+        username: nacos
+        password: nacos
