@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import com.github.moon.product.vo.CategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,7 +96,16 @@ public class CategoryController {
     //@RequiresPermissions("product:category:list")
     public R list(){
         List<CategoryEntity> categoryEntityList = categoryService.listWithThree();
+        return R.ok().put("data", categoryEntityList);
+    }
 
+    /**
+     * 查出所有分类以及子分类，以树结构组装列表2
+     */
+    @RequestMapping("/list/tree2")
+    //@RequiresPermissions("product:category:list")
+    public R list2(){
+        List<CategoryVo> categoryEntityList = categoryService.listWithThree2();
         return R.ok().put("data", categoryEntityList);
     }
 

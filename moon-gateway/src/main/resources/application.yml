@@ -6,12 +6,27 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: qq_route
-          uri: https://www.qq.com
+        - id: product_route
+          uri: lb://moon-product
           predicates:
-            - Query=url,qq
-#        - id: test_route
-#          uri: https://www.baidu.com
-#          predicates:
-#            - Query=url,baidu
+            - Path=/api/product/**
+          #路径重新
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        - id: coupon_route
+          uri: lb://moon-coupon
+          predicates:
+            - Path=/api/coupon/**
+          #路径重新
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+# http://localhost:10001/api/product/category/list/tree <- http://localhost:8002/product/category/list/tree
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          #路径重新
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+# http://localhost:10001/api/coptcha.jpg <- http://localhost:8080/renren-fast/coptcha.jpg
 

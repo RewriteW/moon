@@ -1,9 +1,15 @@
 package com.github.moon.product.service.impl;
 
+import com.github.moon.product.vo.CategoryVo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -40,8 +46,65 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         //1、查出所有分类
         List<CategoryEntity> categoryEntityList = baseMapper.selectList(null);
         //2、组装父子结构
+        //一级菜单
+        List<CategoryEntity> level1Menus = categoryEntityList.stream().filter((categoryEntity) ->
+             categoryEntity.getParentCid() == 0
+        ).map((menu)->{
+            //递归 2级菜单
+            //用一级(0,1)的子id  作为二级的父id(1,2)
+            menu.setChildren(getChildrens(menu.getCatId(),categoryEntityList));
+            return menu;
+        }).sorted((menu1,menu2)->{
+            return (menu1.getSort()==null?0:menu1.getSort()) -
+                    (menu2.getSort()==null?0:menu2.getSort());
+        }).collect(Collectors.toList());
 
-        return categoryEntityList;
+
+        return level1Menus;
+    }
+
+    //递归查找所有菜单的子菜单
+    private List<CategoryEntity> getChildrens(Long catId,List<CategoryEntity> all){
+
+        List<CategoryEntity> children = all.stream().filter((categoryEntity) -> {
+            return categoryEntity.getParentCid().equals(catId);
+        }).map((categoryEntity) -> {
+            //找到子菜单
+            categoryEntity.setChildren(getChildrens(categoryEntity.getCatId(), all));
+            return categoryEntity;
+        }).sorted((menu1,menu2)->{
+            return (menu1.getSort()==null?0:menu1.getSort()) -
+                    (menu2.getSort()==null?0:menu2.getSort());
+        }).collect(Collectors.toList());
+        return children;
+    }
+
+    @Override
+    public List<CategoryVo> listWithThree2() {
+        //1、查出所有分类
+        List<CategoryEntity> allCategory = baseMapper.selectList(null);
+        //2、组装父子结构
+        List<CategoryVo> categoryTree = findChildrenCategory(allCategory, 0L);
+        return categoryTree;
+    }
+
+    private List<CategoryVo> findChildrenCategory(List<CategoryEntity> allCateGory, Long parentCategoryId) {
+        // 找 2 级
+        return allCateGory.stream()
+                .filter(category -> category.getParentCid().equals(parentCategoryId))
+                .map(category -> {
+                    // TODO 已处理的数据 进行删除 下一次就不会重新处理
+//                    allCateGory.remove(category) ;
+                    // 属性对拷
+                    CategoryVo categoryVo = new CategoryVo();
+                    BeanUtils.copyProperties(category,categoryVo);
+                    // 找  3 级
+                    categoryVo.setChildren(findChildrenCategory(allCateGory, category.getCatId()));
+                    return categoryVo;
+                })
+                .sorted(Comparator.comparing(CategoryVo::getSort,
+                        Comparator.nullsFirst(Comparator.naturalOrder())))//排序，先进行空值判断处理
+                .collect(Collectors.toList());
     }
 
 }

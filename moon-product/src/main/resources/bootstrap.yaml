@@ -26,6 +26,5 @@ spring:
           data-id: product-other.yml
           refresh: true
 #        可以根据组区分dev uat prod
-        enabled: true
         username: @nacos.username@
         password: @nacos.password@

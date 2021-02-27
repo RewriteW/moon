@@ -3,6 +3,7 @@ package com.github.moon.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.common.utils.PageUtils;
 import com.github.moon.product.entity.CategoryEntity;
+import com.github.moon.product.vo.CategoryVo;
 
 import java.util.List;
 import java.util.Map;
@@ -26,5 +27,7 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @Date: 2021/2/27
      */
     List<CategoryEntity> listWithThree();
+
+    List<CategoryVo> listWithThree2();
 }
 
