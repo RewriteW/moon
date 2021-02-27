@@ -1,5 +1,17 @@
 server:
-  port: 10003
+  port: 10001
 spring:
   application:
     name: moon-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: qq_route
+          uri: https://www.qq.com
+          predicates:
+            - Query=url,qq
+#        - id: test_route
+#          uri: https://www.baidu.com
+#          predicates:
+#            - Query=url,baidu
+

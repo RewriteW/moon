@@ -23,7 +23,7 @@ import com.github.common.utils.R;
  *
  * @author wsg
  * @email wsg@gmail.com
- * @date 2021-02-24 14:03:06
+ * @date 2021-02-27 09:56:57
  */
 @RestController
 @RequestMapping("product/skuimages")

@@ -18,6 +18,9 @@
         <module>moon-common</module>
         <module>moon-coupon</module>
         <module>moon-gateway</module>
+        <module>moon-order</module>
+        <module>moon-member</module>
+        <module>moon-ware</module>
     </modules>
 
     <properties>
