@@ -1,6 +1,6 @@
-spring:
-  application:
-    name: moon-coupon
+logging:
+  level:
+    com.github.moon: debug
 
 
 

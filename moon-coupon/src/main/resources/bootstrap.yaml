@@ -16,16 +16,16 @@ spring:
         server-addr: @nacos.ip1@:@nacos.port@,@nacos.ip2@:@nacos.port@,@nacos.ip3@:@nacos.port@
         namespace: @nacos.namespace@
         ext-config[0]:
-          data-id: datasource.yml
+          data-id: coupon_datasource.yml
           group: dev
           #是否刷新，nacos修改就更新
           refresh: true
         ext-config[1]:
-          data-id: mybatis.yml
+          data-id: coupon_mybatis.yml
           group: dev
           refresh: true
         ext-config[2]:
-          data-id: other.yml
+          data-id: coupon_other.yml
           group: dev
           refresh: true
 #        可以根据组区分dev uat prod

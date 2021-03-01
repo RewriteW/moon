@@ -3,6 +3,7 @@ package com.github.moon.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 import com.github.moon.coupon.feign.CouponFeignService;
+import com.github.moon.order.feign.OrderFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +39,16 @@ public class CategoryBrandRelationController {
     public R membercoupons(){
 
         R membercoupons = couponFeignService.membercoupons();
+        return R.ok().put("coupons",membercoupons.get("coupons"));
+    }
+
+    @Autowired
+    OrderFeignService orderFeignService;
+
+
+    @RequestMapping("/coupons2")
+    public R membercoupons2(){
+        R membercoupons = orderFeignService.info(2L);
         return R.ok().put("coupons",membercoupons.get("coupons"));
     }
 
