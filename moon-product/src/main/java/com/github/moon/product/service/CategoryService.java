@@ -29,5 +29,14 @@ public interface CategoryService extends IService<CategoryEntity> {
     List<CategoryEntity> listWithThree();
 
     List<CategoryVo> listWithThree2();
+
+    /**
+     * @Description: 检查当前删除的菜单，是否被别的地方引用
+     * @Param: [asList]
+     * @return: void
+     * @Author: wsg
+     * @Date: 2021/2/28
+     */
+    void removeMenusByIds(List<Long> asList);
 }
 

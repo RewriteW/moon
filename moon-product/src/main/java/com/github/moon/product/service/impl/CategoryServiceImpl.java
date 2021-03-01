@@ -107,4 +107,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param asList
+     * @Description: 检查当前删除的菜单，是否被别的地方引用
+     * @Param: [asList]
+     * @return: void
+     * @Author: wsg
+     * @Date: 2021/2/28
+     */
+    @Override
+    public void removeMenusByIds(List<Long> asList) {
+
+        //TODO 1、检查当前删除的菜单，是否被别的地方引用
+        //逻辑删除 只是标识删除 实体需加注解@Tablelogic
+        baseMapper.deleteBatchIds(asList);
+
+    }
+
 }
